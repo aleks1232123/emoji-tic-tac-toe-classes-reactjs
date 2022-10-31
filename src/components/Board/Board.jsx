@@ -5,16 +5,18 @@ export default class Board extends Component {
 
   constructor(props){
     super(props);
-    this.state = { boardState: Array(3).fill(Array(3).fill(null)),
-                    playerStatus: 'Player 1 Turn'};
+    this.state = { boardState: [[null, null, null],
+                                [null, null, null],
+                                [null, null, null]],
+                    playerStatus: 'O'};
   }
 
   handleClick = (adr) => {
     console.log(adr[0], adr[2]);
-    let newBoardState = [...this.state.boardState];
-    newBoardState[+adr[0]][+adr[2]] = 'X';
-    this.setState({ boardState: newBoardState });
-    console.log(this.state.boardState[0])
+    let newBoardState = [[...this.state.boardState[0]], [...this.state.boardState[1]], [...this.state.boardState[2]]];
+    newBoardState[adr[0]][adr[2]] = this.state.playerStatus;
+    let newPlayerStatus = this.state.playerStatus === 'O' ?  'X' : 'O';
+    this.setState({ boardState: newBoardState, playerStatus: newPlayerStatus });
   }
 
   render() {

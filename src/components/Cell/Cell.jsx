@@ -17,4 +17,3 @@ export default class Cell extends Component {
     )
   }
 }
-
