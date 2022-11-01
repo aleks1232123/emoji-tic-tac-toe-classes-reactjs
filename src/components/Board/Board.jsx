@@ -14,8 +14,11 @@ export default class Board extends Component {
   handleClick = (adr) => {
     console.log(adr[0], adr[2]);
     let newBoardState = [[...this.state.boardState[0]], [...this.state.boardState[1]], [...this.state.boardState[2]]];
-    newBoardState[adr[0]][adr[2]] = this.state.playerStatus;
-    let newPlayerStatus = this.state.playerStatus === 'O' ?  'X' : 'O';
+    let newPlayerStatus = this.state.playerStatus;
+    if (this.state.boardState[adr[0]][adr[2]] === null){
+      newBoardState[adr[0]][adr[2]] = this.state.playerStatus;
+      newPlayerStatus = this.state.playerStatus === 'O' ?  'X' : 'O';
+    }
     this.setState({ boardState: newBoardState, playerStatus: newPlayerStatus });
   }
 
