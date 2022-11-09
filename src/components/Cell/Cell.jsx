@@ -1,8 +1,7 @@
 import { Component } from 'react'
 
 export default class Cell extends Component {
-
-  gameColorScheme = this.props.gameColorScheme === 1 ? 'blue' : ''; //допилить стилизацию
+  //допилить стилизацию
 
   componentDidMount() {
     console.log(this);
@@ -11,18 +10,24 @@ export default class Cell extends Component {
   render() {
 
     const mystyle = {
-      fontSize: '36px',
-      width: '100px',
-      height: '100px',
+      fontSize: '50px',
+      width: '120px',
+      height: '120px',
+      backgroundColor: this.props.gameColorScheme === 1 ? 'teal' : '',
+      color: this.props.gameColorScheme === 1 ? 'white' : '',
+      border: '2px solid black', 
+      display: 'flex',
+      justifyContent: 'center',
+      alignItems: 'center',
     };
 
     return (
-      <button 
+      <div
         value={this.props.value}
         onClick={() => this.props.onClick(this.props.adr)}
         style={mystyle}>
           {this.props.value}              
-      </button>
+      </div>
     )
   }
 }

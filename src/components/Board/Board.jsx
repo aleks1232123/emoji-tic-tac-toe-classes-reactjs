@@ -8,7 +8,7 @@ export default class Board extends Component {
     this.state = { boardState: [[null, null, null],
                                 [null, null, null],
                                 [null, null, null]],
-                    gameStatus: 'X'};
+                    gameStatus: this.props.characters[0]};
   }
 
   gameColorScheme = [[null, null, null], [null, null, null], [null, null, null]];
@@ -18,7 +18,7 @@ export default class Board extends Component {
     let newGameStatus = this.state.gameStatus;
     if (this.state.boardState[adr[0]][adr[2]] === null && this.calculateWinner(this.state.boardState) === 1){
       newBoardState[adr[0]][adr[2]] = this.state.gameStatus;
-      newGameStatus = this.state.gameStatus === 'O' ?  'X' : 'O';
+      newGameStatus = this.state.gameStatus === this.props.characters[0] ?  this.props.characters[1] : this.props.characters[0];
     }
     this.setState({ boardState: newBoardState, gameStatus: newGameStatus });
   }
@@ -27,7 +27,8 @@ export default class Board extends Component {
     this.setState({ boardState: [ [null, null, null],
                                   [null, null, null],
                                   [null, null, null]],
-                    gameStatus: 'X'});
+                    gameStatus: this.props.characters[0]});
+    this.gameColorScheme = [[null, null, null], [null, null, null], [null, null, null]];
   }
 
   calculateWinner = (boardState) => {
@@ -62,7 +63,7 @@ export default class Board extends Component {
 
     const winner = this.calculateWinner(this.state.boardState);
     let status;
-    if (winner === 'O'|| winner === 'X') {
+    if (winner === this.props.characters[0] || winner === this.props.characters[1]) {
       status = 'The Winner Is ' + winner;
       console.log(this.gameColorScheme);
     } else if (winner === 1) {
@@ -82,7 +83,7 @@ export default class Board extends Component {
           <div className='board'>
             {[0,1,2].map((num) => <BoardRow onClick={(i) => this.handleClick(i)} value = {this.state.boardState[num]} row = {num} key = {num} gameColorScheme = {this.gameColorScheme[num]}/>)}
           </div>
-          <div>{winner !== 1 ? (<button onClick={this.handleRestart} style={{marginTop: '20px'}}>RESTART</button>) : null}
+          <div style={{position: 'absolute', bottom: '170px'}}>{winner !== 1 ? (<button onClick={this.handleRestart} style={{backgroundColor: 'teal', fontSize: '18px', border: 'none', borderRadius: '3px', cursor: 'pointer', width: '150px', height: '50px', color: 'white'}}><b>RESTART</b></button>) : null}
           </div>
         </div>
       </div>
