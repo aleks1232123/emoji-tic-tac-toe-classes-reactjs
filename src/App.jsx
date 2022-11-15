@@ -31,8 +31,6 @@ export default class App extends Component {
 
   gameColorScheme = [[null, null, null], [null, null, null], [null, null, null]];
   turn = gameCharacters[0];
-  //status = "Next Turn: " + this.turn;
-  //winner = 0;
 
   handleClick = (adr) => {
     let newBoardState = [[...this.state.boardState[0]], [...this.state.boardState[1]], [...this.state.boardState[2]]];
@@ -40,16 +38,22 @@ export default class App extends Component {
       newBoardState[adr[0]][adr[2]] = this.turn;
       this.turn = this.turn === gameCharacters[0] ?  gameCharacters[1] : gameCharacters[0];
     }
-    this.setState({ ...this.state, boardState: newBoardState });
+    let winner = calculateGameResult(newBoardState);
+    if (winner && winner !== 3){
+      let newScore = [...this.state.score];
+      newScore[gameCharacters.indexOf(winner)] += 1;
+      this.setState({ score: newScore, boardState: newBoardState });
+    } else {
+      this.setState({ ...this.state, boardState: newBoardState });
+    }
   }
 
   handleRestart = () => {
     this.setState({ ...this.state,
                     boardState: [[null, null, null],
                                   [null, null, null],
-                                  [null, null, null]],
-                    gameStatus: this.gameCharacters[0]});
-    this.gameColorScheme = [[null, null, null], [null, null, null], [null, null, null]];
+                                  [null, null, null]]});
+    //this.gameColorScheme = [[null, null, null], [null, null, null], [null, null, null]];
   }
 
   changeScore = (num) => {
@@ -58,21 +62,11 @@ export default class App extends Component {
     this.setState({...this.state, score: newScore});
   }
 
-  // componentDidUpdate = (prevProps, prevState, snapshot) => {
-  //   if (this.winner ===  gameCharacters[0]){
-  //     let newScore = [this.state.score[0] + 1, this.state.score[1]];
-  //     this.setState({ ...this.state, score: newScore });
-  //   } else if (this.winner ===  gameCharacters[0]){
-  //     let newScore = [this.state.score[0], this.state.score[1] + 1];
-  //     this.setState({ ...this.state, score: newScore });
-  // }
-//}
-
   render() {
     let winner = calculateGameResult(this.state.boardState, this.gameColorScheme);
     let status = '';
     if (winner === gameCharacters[0] || winner === gameCharacters[1]) {
-      status = "The Winner Is " + this.winner;
+      status = "The Winner Is " + winner;
     } else if (winner === 0) {
       status = "Next Turn: " + this.turn;
     } else {
@@ -85,7 +79,8 @@ export default class App extends Component {
         <Scoreboard gameCharacters={gameCharacters} score={this.state.score}/>
         <StatusBoard status={status}/>
         <Board onClick={(i) => {this.handleClick(i)}} state={this.state} gameColorScheme={this.gameColorScheme}/>
-        { winner ? <RestartButton onClick={() => this.handleRestart()}/> : null }
+        { winner ? <RestartButton onClick={() => this.handleRestart()}/> 
+                  : <div style={{height: '50px', marginTop: '30px'}}></div> }
       </div>
     );
   }

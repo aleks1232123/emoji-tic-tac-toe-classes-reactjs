@@ -1,6 +1,5 @@
 .statusBoard {
-  position: absolute;
   font-size: 24px;
-  top: 230px;
+  margin-bottom: 20px;
   user-select: none;
 }
