@@ -1,10 +1,10 @@
-import React, { Component } from 'react'
+import { Component } from 'react'
+import styles from './StatusBoard.module.css'
 
 export default class StatusBoard extends Component {
   render() {
-
     return (
-      <div style={{fontSize: '24px', marginLeft: '100px'}}>
+      <div className={styles.statusBoard}>
             <b>{this.props.status}</b>
       </div>
     )

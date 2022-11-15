@@ -1,0 +1,14 @@
+.cell {
+  font-size: 50px;
+  width: 120px;
+  height: 120px;
+  /* backgroundColor: this.props.gameColorScheme === 1 ? 'teal' : '',
+  color: this.props.gameColorScheme === 1 ? 'white' : '', */
+  border: 2px solid black; 
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-sizing: border-box;
+  cursor: pointer;
+  user-select: none;
+}

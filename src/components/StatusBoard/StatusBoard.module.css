@@ -1,0 +1,6 @@
+.statusBoard {
+  position: absolute;
+  font-size: 24px;
+  top: 230px;
+  user-select: none;
+}
