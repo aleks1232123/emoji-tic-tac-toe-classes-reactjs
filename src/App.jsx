@@ -28,18 +28,19 @@ export default class App extends Component {
                     score: [0,0],
                   };
   }
-
-  gameColorScheme = [[null, null, null], [null, null, null], [null, null, null]];
   turn = gameCharacters[0];
+  stopGameFlag = false;
+  //LOCALSTORAGE???
 
   handleClick = (adr) => {
     let newBoardState = [[...this.state.boardState[0]], [...this.state.boardState[1]], [...this.state.boardState[2]]];
-    if (this.state.boardState[adr[0]][adr[2]] === null && calculateGameResult(this.state.boardState) === 0){
+    if (this.state.boardState[adr[0]][adr[2]] === null && calculateGameResult(this.state.boardState)[0] === 0){
       newBoardState[adr[0]][adr[2]] = this.turn;
-      this.turn = this.turn === gameCharacters[0] ?  gameCharacters[1] : gameCharacters[0];
+      this.turn = (gameCharacters.indexOf(this.turn) ?  gameCharacters[0] : gameCharacters[1]);
     }
-    let winner = calculateGameResult(newBoardState);
-    if (winner && winner !== 3){
+    let winner = calculateGameResult(newBoardState)[0];
+    if (winner && winner !== 3 && !this.stopGameFlag){
+      this.stopGameFlag = true;
       let newScore = [...this.state.score];
       newScore[gameCharacters.indexOf(winner)] += 1;
       this.setState({ score: newScore, boardState: newBoardState });
@@ -53,7 +54,7 @@ export default class App extends Component {
                     boardState: [[null, null, null],
                                   [null, null, null],
                                   [null, null, null]]});
-    //this.gameColorScheme = [[null, null, null], [null, null, null], [null, null, null]];
+    this.stopGameFlag = false;
   }
 
   changeScore = (num) => {
@@ -63,7 +64,8 @@ export default class App extends Component {
   }
 
   render() {
-    let winner = calculateGameResult(this.state.boardState, this.gameColorScheme);
+    let winner = calculateGameResult(this.state.boardState)[0];
+    let gameColorScheme = calculateGameResult(this.state.boardState)[1];
     let status = '';
     if (winner === gameCharacters[0] || winner === gameCharacters[1]) {
       status = "The Winner Is " + winner;
@@ -73,12 +75,11 @@ export default class App extends Component {
       status = "It's a Draw";
     }
 
-    console.log(winner)
     return (
       <div className="App">
         <Scoreboard gameCharacters={gameCharacters} score={this.state.score}/>
         <StatusBoard status={status}/>
-        <Board onClick={(i) => {this.handleClick(i)}} state={this.state} gameColorScheme={this.gameColorScheme}/>
+        <Board onClick={(i) => {this.handleClick(i)}} state={this.state} gameColorScheme={gameColorScheme}/>
         { winner ? <RestartButton onClick={() => this.handleRestart()}/> 
                   : <div style={{height: '50px', marginTop: '30px'}}></div> }
       </div>
