@@ -3,8 +3,7 @@ import countBoardValue from "./countBoardValues";
 export default function calculateGameResult(boardState) {
   
   let gameColorScheme = [[null, null, null], [null, null, null], [null, null, null]];
-  let gameResult = 0; // 0 - game countines, 1-2 - player 1-2 wins, 3 - draw;
- 
+  let gameResult = 'Continue';
   for (let i = 0; i < boardState.length; i++){
     if (boardState[i][0] && boardState[i][0] === boardState[i][1] && boardState[i][0] === boardState[i][2]){
       gameColorScheme[i][0] = gameColorScheme[i][1] = gameColorScheme[i][2] = 1;
@@ -27,12 +26,12 @@ export default function calculateGameResult(boardState) {
     gameResult = boardState[0][2];
     return [gameResult, gameColorScheme];
   }
-  if (countBoardValue(boardState)['0']){
-    gameResult = 0;
+  if (countBoardValue(boardState)['emptyValues']){
+    gameResult = 'Continue';
     return [gameResult, gameColorScheme];
   }
   else{
-    gameResult = 3;
+    gameResult = 'Draw';
     return [gameResult, gameColorScheme];
   }
 }

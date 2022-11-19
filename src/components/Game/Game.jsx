@@ -35,12 +35,12 @@ export default class App extends Component {
 
   handleClick = (adr) => {
     let newBoardState = [[...this.state.boardState[0]], [...this.state.boardState[1]], [...this.state.boardState[2]]];
-    if (this.state.boardState[adr[0]][adr[2]] === null && calculateGameResult(this.state.boardState)[0] === 0){
+    if (this.state.boardState[adr[0]][adr[2]] === null && calculateGameResult(this.state.boardState)[0] === 'Continue'){
       newBoardState[adr[0]][adr[2]] = this.turn;
       this.turn = (gameCharacters.indexOf(this.turn) ?  gameCharacters[0] : gameCharacters[1]);
     }
     let winner = calculateGameResult(newBoardState)[0];
-    if (winner && winner !== 3 && !this.stopGameFlag){
+    if (winner !== 'Continue' && winner !== 'Draw' && !this.stopGameFlag){
       this.stopGameFlag = true;
       let newScore = [...this.state.score];
       newScore[gameCharacters.indexOf(winner)] += 1;
@@ -70,7 +70,7 @@ export default class App extends Component {
     let status = '';
     if (winner === gameCharacters[0] || winner === gameCharacters[1]) {
       status = "The Winner Is " + winner;
-    } else if (winner === 0) {
+    } else if (winner === 'Continue') {
       status = "Next Turn: " + this.turn;
     } else {
       status = "It's a Draw";
