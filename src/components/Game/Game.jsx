@@ -39,11 +39,11 @@ export default class App extends Component {
       newBoardState[adr[0]][adr[2]] = this.turn;
       this.turn = (gameCharacters.indexOf(this.turn) ?  gameCharacters[0] : gameCharacters[1]);
     }
-    let winner = calculateGameResult(newBoardState)[0];
-    if (winner !== 'Continue' && winner !== 'Draw' && !this.stopGameFlag){
+    let gameResult = calculateGameResult(newBoardState)[0];
+    if (gameResult !== 'Continue' && gameResult !== 'Draw' && !this.stopGameFlag){
       this.stopGameFlag = true;
       let newScore = [...this.state.score];
-      newScore[gameCharacters.indexOf(winner)] += 1;
+      newScore[gameCharacters.indexOf(gameResult)] += 1;
       this.setState({ score: newScore, boardState: newBoardState });
     } else {
       this.setState({ ...this.state, boardState: newBoardState });
@@ -65,12 +65,12 @@ export default class App extends Component {
   }
 
   render() {
-    let winner = calculateGameResult(this.state.boardState)[0];
+    let gameResult = calculateGameResult(this.state.boardState)[0];
     let gameColorScheme = calculateGameResult(this.state.boardState)[1];
     let status = '';
-    if (winner === gameCharacters[0] || winner === gameCharacters[1]) {
-      status = "The Winner Is " + winner;
-    } else if (winner === 'Continue') {
+    if (gameResult === gameCharacters[0] || gameResult === gameCharacters[1]) {
+      status = "The Winner Is " + gameResult;
+    } else if (gameResult === 'Continue') {
       status = "Next Turn: " + this.turn;
     } else {
       status = "It's a Draw";
@@ -82,7 +82,7 @@ export default class App extends Component {
         <Scoreboard gameCharacters={gameCharacters} score={this.state.score}/>
         <StatusBoard status={status}/>
         <Board onClick={(i) => {this.handleClick(i)}} state={this.state} gameColorScheme={gameColorScheme}/>
-        { winner ? <RestartButton onClick={() => this.handleRestart()}/> 
+        { gameResult !== 'Continue' ? <RestartButton onClick={() => this.handleRestart()}/> 
                   : <div style={{height: '50px', marginTop: '30px'}}></div> }
       </div>
     );
