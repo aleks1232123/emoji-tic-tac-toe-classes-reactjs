@@ -1,5 +1,5 @@
-import { Component } from 'react'
-import styles from './RestartButton.module.css'
+import { Component } from "react";
+import styles from "./RestartButton.module.css";
 
 export default class RestartButton extends Component {
   render() {
@@ -7,10 +7,11 @@ export default class RestartButton extends Component {
       <div className={styles.buttonContainer}>
         <button
           className={styles.restartBtn}
-          onClick={() => this.props.onClick()}>
-            <b>RESTART</b>
+          onClick={() => this.props.onClick()}
+        >
+          <b>RESTART</b>
         </button>
       </div>
-    )
+    );
   }
 }
