@@ -6,18 +6,27 @@ export default class Banner extends Component {
     super(props);
     this.state = { emoji: 0 };
   }
+
   charactersList = ["👻", "💀", "😈", "👹", "🤡", "💩", "👽", "👾", "🤖", "🎃"];
+  timer;
 
   changeEmoji = () => {
-    setTimeout(() => {
+    this.timer = setInterval(() => {
       let x = this.state.emoji;
       x < 9 ? (x += 1) : (x = 0);
       this.setState({ emoji: x });
     }, 500);
   };
 
-  render() {
+  componentDidMount = () => {
     this.changeEmoji();
+  };
+
+  componentWillUnmount = () => {
+    clearInterval(this.timer);
+  }
+
+  render() {
     return (
       <div className={styles.bannerText}>
         <span style={{ fontSize: "72px" }}>
