@@ -10,3 +10,17 @@
   cursor: pointer;
   user-select: none;
 }
+
+.winningCell {
+  font-size: 50px;
+  width: 120px;
+  height: 120px;
+  border: 2px solid black; 
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-sizing: border-box;
+  cursor: pointer;
+  user-select: none;
+  background-color: teal;
+}
