@@ -14,7 +14,7 @@ export default class BoardRow extends Component {
             value={this.props.value[num]}
             adr={this.props.row + "-" + num}
             key={this.props.row + "-" + num}
-            gameColorScheme={this.props.gameColorScheme[num]}
+            winningCellsBacklight={this.props.winningCellsBacklight[num]}
           />
         ))}
       </div>

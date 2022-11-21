@@ -1,11 +1,12 @@
 import styles from "./Game.module.css";
 import { Component } from "react";
-import Board from "../Board/Board";
-import Scoreboard from "../ScoreBoard/ScoreBoard";
-import StatusBoard from "../StatusBoard/StatusBoard";
-import RestartButton from "../RestartButton/RestartButton";
-import calculateGameResult from "../../utils/calculateGameResult";
-import LinkButton from "../LinkButton/LinkButton";
+import Board from "../../Board/Board";
+import Scoreboard from "../../ScoreBoard/ScoreBoard";
+import StatusBoard from "../../StatusBoard/StatusBoard";
+import RestartButton from "../../RestartButton/RestartButton";
+import calculateGameResult from "../../../utils/calculateGameResult";
+import LinkButton from "../../LinkButton/LinkButton";
+import generateGameStatus from "../../../utils/generateGameStatus";
 
 const charactersList = [
   "👻",
@@ -21,8 +22,8 @@ const charactersList = [
 ];
 const gameCharacters = [];
 while (true) {
-  let firstChar = Math.round(Math.random() * (charactersList.length - 1));
-  let secChar = Math.round(Math.random() * (charactersList.length - 1));
+  const firstChar = Math.round(Math.random() * (charactersList.length - 1));
+  const secChar = Math.round(Math.random() * (charactersList.length - 1));
   if (firstChar !== secChar) {
     gameCharacters.push(charactersList[firstChar], charactersList[secChar]);
     break;
@@ -45,22 +46,23 @@ export default class App extends Component {
   stopGameFlag = false;
   //LOCALSTORAGE???
 
-  handleClick = (adr) => {
+  handleNextTurn = (adr) => {
     let newBoardState = [
       [...this.state.boardState[0]],
       [...this.state.boardState[1]],
       [...this.state.boardState[2]],
     ];
+    let gameResult = calculateGameResult(this.state.boardState).gameResult;
     if (
       this.state.boardState[adr[0]][adr[2]] === null &&
-      calculateGameResult(this.state.boardState)[0] === "Continue"
+      gameResult === "Continue"
     ) {
       newBoardState[adr[0]][adr[2]] = this.turn;
       this.turn = gameCharacters.indexOf(this.turn)
         ? gameCharacters[0]
         : gameCharacters[1];
     }
-    let gameResult = calculateGameResult(newBoardState)[0];
+    gameResult = calculateGameResult(this.state.boardState).gameResult;
     if (
       gameResult !== "Continue" &&
       gameResult !== "Draw" &&
@@ -94,16 +96,10 @@ export default class App extends Component {
   };
 
   render() {
-    let gameResult = calculateGameResult(this.state.boardState)[0];
-    let gameColorScheme = calculateGameResult(this.state.boardState)[1];
-    let status = "";
-    if (gameResult === gameCharacters[0] || gameResult === gameCharacters[1]) {
-      status = "The Winner Is " + gameResult;
-    } else if (gameResult === "Continue") {
-      status = "Next Turn: " + this.turn;
-    } else {
-      status = "It's a Draw";
-    }
+    const { gameResult, winningCellsBacklight } = calculateGameResult(
+      this.state.boardState
+    );
+    const status = generateGameStatus(gameResult, gameCharacters, this.turn);
 
     return (
       <div className={styles.game}>
@@ -112,10 +108,10 @@ export default class App extends Component {
         <StatusBoard status={status} />
         <Board
           onClick={(i) => {
-            this.handleClick(i);
+            this.handleNextTurn(i);
           }}
           state={this.state}
-          gameColorScheme={gameColorScheme}
+          winningCellsBacklight={winningCellsBacklight}
         />
         {gameResult !== "Continue" ? (
           <RestartButton onClick={() => this.handleRestart()} />

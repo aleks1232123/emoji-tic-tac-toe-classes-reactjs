@@ -7,8 +7,8 @@ export default class Cell extends Component {
       <div
         className={styles.cell}
         style={{
-          backgroundColor: this.props.gameColorScheme === 1 ? "teal" : "",
-          color: this.props.gameColorScheme === 1 ? "white" : "",
+          backgroundColor: this.props.winningCellsBacklight === 1 ? "teal" : "",
+          color: this.props.winningCellsBacklight === 1 ? "white" : "",
         }}
         value={this.props.value}
         onClick={() => this.props.onClick(this.props.adr)}

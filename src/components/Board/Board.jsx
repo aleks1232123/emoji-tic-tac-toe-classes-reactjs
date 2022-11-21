@@ -14,7 +14,7 @@ export default class Board extends Component {
             value={this.props.state.boardState[num]}
             row={num}
             key={num}
-            gameColorScheme={this.props.gameColorScheme[num]}
+            winningCellsBacklight={this.props.winningCellsBacklight[num]}
           />
         ))}
       </div>
