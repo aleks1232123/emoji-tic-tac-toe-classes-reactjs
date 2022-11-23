@@ -1,0 +1,7 @@
+.scoreBoard {
+  position: absolute;
+  font-size: 36px;
+  top: 30px;
+  right: 50px;
+  user-select: none;
+}
