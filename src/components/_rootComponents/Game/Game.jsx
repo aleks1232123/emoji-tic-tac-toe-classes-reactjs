@@ -1,7 +1,7 @@
 import styles from "./Game.module.css";
 import { Component } from "react";
 import Board from "../../Board/Board";
-import Scoreboard from "../../ScoreBoard/ScoreBoard";
+import ScoreBoard from "../../ScoreBoard/ScoreBoard";
 import StatusBoard from "../../StatusBoard/StatusBoard";
 import RestartButton from "../../RestartButton/RestartButton";
 import calculateGameResult from "../../../utils/calculateGameResult";
@@ -104,7 +104,7 @@ export default class App extends Component {
     return (
       <div className={styles.game}>
         <LinkButton text="BACK" link="/" theme="backBtn" />
-        <Scoreboard gameCharacters={gameCharacters} score={this.state.score} />
+        <ScoreBoard gameCharacters={gameCharacters} score={this.state.score} />
         <StatusBoard status={status} />
         <Board
           onClick={(i) => {

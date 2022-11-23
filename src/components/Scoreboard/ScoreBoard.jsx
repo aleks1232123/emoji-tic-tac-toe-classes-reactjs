@@ -1,7 +1,7 @@
 import { Component } from "react";
 import styles from "./ScoreBoard.module.css";
 
-export default class Scoreboard extends Component {
+export default class ScoreBoard extends Component {
   render() {
     return (
       <div className={styles.scoreBoard}>
